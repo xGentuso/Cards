@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CardsListView: View {
-  @State private var isPresented = false
+@State private var isPresented = false
 
   var body: some View {
     list
