@@ -1,36 +1,28 @@
 import SwiftUI
 
 struct SingleCardView: View {
+  @Binding var card: Card
   @State private var currentModal: ToolbarSelection?
 
   var body: some View {
     NavigationStack {
-      content
-        .modifier(CardToolbar(currentModal: $currentModal))
-    }
-  }
-
-  var content: some View {
-    ZStack {
-      Group {
-        Capsule()
-          .foregroundColor(.yellow)
-        Text("Resize Me!")
-          .fontWeight(.bold)
-          .font(.system(size: 500))
-          .minimumScaleFactor(0.01)
-          .lineLimit(1)
-      }
-      .resizableView()
-      Circle()
-        .resizableView()
-        .offset(CGSize(width: 50, height: 200))
+      CardDetailView(card: $card)
+        .modifier(CardToolbar(
+          currentModal: $currentModal,
+          card: $card))
     }
   }
 }
 
 struct SingleCardView_Previews: PreviewProvider {
+  struct SingleCardPreview: View {
+    @EnvironmentObject var store: CardStore
+    var body: some View {
+      SingleCardView(card: $store.cards[0])
+    }
+  }
   static var previews: some View {
-    SingleCardView()
+    SingleCardPreview()
+      .environmentObject(CardStore(defaultData: true))
   }
 }
